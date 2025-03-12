@@ -1,5 +1,17 @@
 :root {
-  --primary-color: #0070f3;
+  --primary-color: #4361ee;      /* Rich blue */
+  --secondary-color: #fb8500;    /* Vibrant orange */
+  --bg-light: #f8f9fa;           /* Light background */
+  --bg-white: #ffffff;           /* Pure white */
+  --text-dark: #222831;          /* Dark text */
+  --text-gray: #495057;          /* Medium gray text */
+  --border-color: #e9ecef;       /* Light border */
+  --hover-color: #3a56d4;        /* Darker blue for hover */
+  --card-gradient-1: #ffffff;    /* Card gradient start */
+  --card-gradient-2: #f5f7ff;    /* Card gradient end */
+  --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --accent-light: #e6efff;       /* Light accent color */
 }
 
 html,
@@ -7,232 +19,443 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0.3px;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2rem 1.5rem;
+}
+
+/* Enhanced Button Styling */
+.btn,
+.btn-back {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  width: 8rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
 }
 
 .btn {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: #fff;
-  padding: 0.5rem 1rem;
+  background-color: #38a6f0;
+  color: var(--bg-white);
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
+  width: 10rem;
 }
 
 .btn:hover {
-  background-color: #0058b7;
-  color: #fff;
+  background: linear-gradient(135deg, #9baaf1, var(--primary-color));
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(154, 170, 243, 0.25);
 }
 
 .btn-back {
-  display: inline-block;
-  background-color: #f4f4f4;
-  color: #333;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-decoration: none;
-  margin-bottom: 1.3rem;
+  background-color: rgb(102, 181, 247);
+  color: var(--bg-white);
+  margin-bottom: 1.5rem;
+
 }
 
+.btn-back:hover {
+  background: linear-gradient(135deg, #a1cce9);
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(11, 133, 233, 0.25);
+}
+
+/* Header with reduced size and no sticky position */
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: #0047ab;
-  color: #fff;
-  padding: 1rem;
-  border-bottom: 5px solid #fff;
-}
-
-.logo {
-  text-align: center;
-  margin-bottom: 0.5rem;
+  background-color: var(--bg-white);
+  border-bottom: 3px solid var(--primary-color); /* Slightly thinner border */
+  position: relative; /* Changed from sticky to relative */
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .logo a {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
+  font-size: 1.8rem; /* Reduced font size */
+  font-weight: 800;
+  color: var(--text-dark);
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.2px; /* Slightly reduced spacing */
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: var(--transition);
+}
+
+.logo a:hover {
+  transform: scale(1.05);
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
 }
 
 .links a {
-  margin: 0 0.5rem 0 0.5rem;
-  color: #fff;
+  position: relative;
+  padding: 0.4rem 0; /* Slightly reduced padding */
+  color: var(--text-gray);
+  font-weight: 600;
   text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.9rem; /* Smaller font size */
+  letter-spacing: 1px;
+  transition: var(--transition);
+}
+
+.links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: var(--transition);
 }
 
 .links a:hover {
-  text-decoration: underline;
+  color: var(--primary-color);
 }
 
+.links a:hover::after {
+  width: 100%;
+}
+
+/* Enhanced Search Form */
 .search-form {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 2rem auto;
+  max-width: 700px;
 }
 
 .search-input {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
   flex-grow: 1;
-  padding: 0.8rem;
-  border: 0;
-  border-radius: 4px;
-  font-size: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 50px;
+  outline: none;
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  transition: var(--transition);
+  box-shadow: var(--box-shadow);
+}
+
+.search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1), var(--box-shadow);
 }
 
 .search-button {
-  padding: 0.7rem 1rem;
-  margin-left: 0.5rem;
-  background-color: var(--primary-color);
-  color: #fff;
+  padding: 1rem 2rem;
+  margin-left: 0.8rem;
+  background: linear-gradient(135deg, var(--primary-color), #3a56d4);
+  color: var(--bg-white);
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: var(--box-shadow);
 }
 
 .search-button:hover {
-  background-color: #0058b7;
+  background: linear-gradient(135deg, #3a56d4, var(--primary-color));
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(67, 97, 238, 0.25);
 }
 
-.search-input:focus,
-.search-button:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+.search-button:active {
+  transform: translateY(-1px);
 }
 
+/* Repositories Container with improved spacing */
 .repos-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 0;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 1.5rem;
 }
 
 .repo-list {
   list-style: none;
-  margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .repo-list li {
-  margin: 2rem 0;
+  margin: 0;
 }
 
+/* Redesigned Repository Cards with proper content spacing */
 .repo-list a {
-  display: block;
-  background-color: #fff;
-  color: #333;
-  padding: 1rem;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-white);
+  color: var(--text-dark);
+  border-radius: 16px;
   text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .repo-list a:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+}
+
+.repo-list a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
 .repo-list h3 {
   margin: 0;
-  font-size: 1.5rem;
+  padding: 1.5rem 1.5rem 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
 }
 
 .repo-list p {
   margin: 0;
-  color: #666;
-  font-size: 1.2rem;
+  padding: 0 1.5rem 1.5rem;
+  color: var(--text-gray);
+  font-size: 1rem;
+  line-height: 1.6;
+  flex-grow: 1; /* Makes description take available space */
 }
 
 .repo-details {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
-  color: #999;
+  color: var(--text-gray);
+  padding: 1rem 1.5rem;
+  background-color: var(--accent-light);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto; /* Pushes the details to the bottom */
 }
 
 .repo-details span {
   display: flex;
   align-items: center;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .repo-details svg {
   margin-right: 0.5rem;
+  color: var(--primary-color);
 }
 
+/* Enhanced Loader */
 .loader {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
 }
 
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: blue;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(67, 97, 238, 0.1);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  border-top-color: var(--primary-color);
   animation: spin 1s linear infinite;
-}
-
-.card {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 1rem;
-  margin: 1rem;
-
-  background-color: #fff;
-  color: #333;
-}
-
-.card h2 {
-  font-size: 1.5rem;
-  margin-top: 0;
-}
-
-.card .card-content {
-  margin-top: 1rem;
-}
-
-.card .card-stats {
-  display: flex;
-  margin: 1rem 0;
-}
-
-.card .card-stat {
-  display: flex;
-  align-items: center;
-  margin-right: 1rem;
-}
-
-.card .card-stat svg {
-  margin-right: 0.5rem;
-}
-
-.card .card-stat span {
-  font-size: 0.9rem;
-}
-
-.courses .card h2 {
-  margin-bottom: 0;
+  box-shadow: 0 0 15px rgba(67, 97, 238, 0.1);
 }
 
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.loader p {
+  margin-top: 1.5rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Enhanced Card with proper spacing */
+.card {
+  border: none;
+  border-radius: 20px;
+  background: var(--bg-white);
+  color: var(--text-dark);
+  transition: var(--transition);
+  box-shadow: var(--box-shadow);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  margin: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card-header {
+  padding: 1.5rem 1.5rem 1rem;
+  position: relative;
+}
+
+.card-header::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.212);
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 1rem 0;
+  text-transform: capitalize;
+}
+
+.card .card-content {
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  line-height: 1.7;
+  flex-grow: 1; /* Makes content take available space */
+}
+
+.card .card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 1.2rem 1.5rem;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: var(--accent-light);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto; /* Pushes stats to the bottom */
+}
+
+.card .card-stat {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--bg-white);
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.card .card-stat svg {
+  margin-right: 0.5rem;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.card .card-stat span {
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.card .card-footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--bg-white);
+  border-top: 1px solid var(--border-color);
+}
+
+.card .card-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.6rem 1.8rem;
+  background-color: var(--accent-light);
+  border-radius: 50px;
+  transition: var(--transition);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  display: inline-block;
+}
+
+.card .card-footer a:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-white);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .logo {
+    margin-bottom: 0.8rem;
+  }
+  
+  .links {
+    margin-top: 0.8rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+  
+  .search-button {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .repo-list {
+    grid-template-columns: 1fr;
   }
 }
