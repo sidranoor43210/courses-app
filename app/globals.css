@@ -170,7 +170,7 @@ body {
 .search-button {
   padding: 1rem 2rem;
   margin-left: 0.8rem;
-  background: linear-gradient(135deg, var(--primary-color), #3a56d4);
+  background-color: #38a6f0;;
   color: var(--bg-white);
   border: none;
   border-radius: 50px;
