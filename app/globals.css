@@ -651,3 +651,102 @@ body {
 .logout-button:active {
   transform: translateY(-1px);
 }
+/* User Email in Header */
+.user-email {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  background-color: var(--accent-light);
+  border-radius: 50px;
+  margin-left: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  display: inline-block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .links {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .user-email {
+    margin: 0.5rem 0;
+    max-width: 100%;
+  }
+  
+  .logout-button {
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+}
+/* User Email in Header */
+.user-email {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  background-color: var(--accent-light);
+  border-radius: 50px;
+  margin-left: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  display: inline-block;
+}
+
+/* Smaller Logout Button */
+.logout-button-small {
+  padding: 0.4rem 1rem;
+  margin-left: 0.8rem;
+  background: linear-gradient(135deg, #ff5757, #ff7e29);
+  color: var(--bg-white);
+  border: none;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255, 87, 87, 0.15);
+}
+
+.logout-button-small:hover {
+  background: linear-gradient(135deg, #ff4747, #ff6e19);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 87, 87, 0.25);
+}
+
+.logout-button-small:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .links {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .user-email {
+    margin: 0.5rem 0;
+    max-width: 100%;
+  }
+  
+  .logout-button-small {
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+}

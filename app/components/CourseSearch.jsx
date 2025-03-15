@@ -5,8 +5,7 @@ import { auth } from '../firebase';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
-  onAuthStateChanged,
-  signOut 
+  onAuthStateChanged
 } from 'firebase/auth';
 
 const CourseSearch = ({ getSearchResults }) => {
@@ -97,8 +96,11 @@ const CourseSearch = ({ getSearchResults }) => {
       // Auth state change will automatically update loggedIn state
     } catch (error) {
       // Handle different error codes
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-        setError('Invalid email or password');
+      if (error.code === 'auth/user-not-found') {
+        setError('You are a new user. Please sign up first.');
+        setIsSignup(true); // Automatically switch to signup form
+      } else if (error.code === 'auth/wrong-password') {
+        setError('Invalid password');
       } else if (error.code === 'auth/invalid-email') {
         setError('Invalid email format');
       } else {
@@ -124,6 +126,7 @@ const CourseSearch = ({ getSearchResults }) => {
       // Handle different error codes
       if (error.code === 'auth/email-already-in-use') {
         setError('Email already in use. Please log in instead.');
+        setIsSignup(false); // Switch to login form
       } else if (error.code === 'auth/weak-password') {
         setError('Password is too weak. Please use at least 6 characters.');
       } else if (error.code === 'auth/invalid-email') {
@@ -133,15 +136,6 @@ const CourseSearch = ({ getSearchResults }) => {
       }
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      // Auth state change will automatically update loggedIn state
-    } catch (error) {
-      console.error('Logout error:', error);
     }
   };
 
@@ -172,16 +166,6 @@ const CourseSearch = ({ getSearchResults }) => {
         <button className='search-button' type='submit'>
           Search
         </button>
-        
-        {loggedIn && (
-          <button 
-            type="button" 
-            className="logout-button" 
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        )}
       </form>
 
       {/* Login/Signup Popup */}
