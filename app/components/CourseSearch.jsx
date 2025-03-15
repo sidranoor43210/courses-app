@@ -1,19 +1,23 @@
 'use client';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
-
-// Assuming you have some way to check if the user is logged in
-const isUserLoggedIn = () => {
-  // Check localStorage, cookies, or your global state to see if the user is logged in
-  return localStorage.getItem('isLoggedIn') === 'true'; // This is just an example
-};
+import { auth } from '../firebase';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged,
+  signOut 
+} from 'firebase/auth';
 
 const CourseSearch = ({ getSearchResults }) => {
   const [query, setQuery] = useState('');
-  const [showLoginPopup, setShowLoginPopup] = useState(false);  // State to control the login/signup popup visibility
-  const [loggedIn, setLoggedIn] = useState(isUserLoggedIn()); // Track if the user is logged in
-  const [isSignup, setIsSignup] = useState(false);  // State to toggle between Login and Signup forms
-  const [userDetails, setUserDetails] = useState({ email: '', password: '' }); // For storing user input
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
+  const [userDetails, setUserDetails] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   // Create a debounced search function
   const debouncedSearch = _.debounce(async (searchQuery) => {
@@ -29,6 +33,24 @@ const CourseSearch = ({ getSearchResults }) => {
     const courses = await res.json();
     getSearchResults(courses);
   }, 500); // 500ms delay
+
+  // Check authentication state when component mounts
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        setLoggedIn(true);
+        setUser(user);
+      } else {
+        // User is signed out
+        setLoggedIn(false);
+        setUser(null);
+      }
+    });
+
+    // Clean up subscription
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     // Call debounced search only if user is logged in
@@ -57,24 +79,75 @@ const CourseSearch = ({ getSearchResults }) => {
     }
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Simulate login (this is just an example, replace with real login logic)
-    localStorage.setItem('isLoggedIn', 'true');
-    setLoggedIn(true);
-    setShowLoginPopup(false);  // Close the login/signup popup after successful login
+  // Reset form fields after successful authentication
+  const resetForm = () => {
+    setUserDetails({ email: '', password: '' });
   };
 
-  const handleSignup = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simulate signup (this is just an example, replace with real signup logic)
-    localStorage.setItem('isLoggedIn', 'true');
-    setLoggedIn(true);
-    setShowLoginPopup(false);  // Close the login/signup popup after successful signup
+    setError('');
+    setLoading(true);
+    
+    try {
+      // Sign in with email and password using Firebase
+      await signInWithEmailAndPassword(auth, userDetails.email, userDetails.password);
+      setShowLoginPopup(false);
+      resetForm(); // Reset the form fields
+      // Auth state change will automatically update loggedIn state
+    } catch (error) {
+      // Handle different error codes
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        setError('Invalid email or password');
+      } else if (error.code === 'auth/invalid-email') {
+        setError('Invalid email format');
+      } else {
+        setError('Login failed: ' + error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    
+    try {
+      // Create a new user with email and password using Firebase
+      await createUserWithEmailAndPassword(auth, userDetails.email, userDetails.password);
+      setShowLoginPopup(false);
+      resetForm(); // Reset the form fields
+      // Auth state change will automatically update loggedIn state
+    } catch (error) {
+      // Handle different error codes
+      if (error.code === 'auth/email-already-in-use') {
+        setError('Email already in use. Please log in instead.');
+      } else if (error.code === 'auth/weak-password') {
+        setError('Password is too weak. Please use at least 6 characters.');
+      } else if (error.code === 'auth/invalid-email') {
+        setError('Invalid email format');
+      } else {
+        setError('Signup failed: ' + error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // Auth state change will automatically update loggedIn state
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   const handleClosePopup = () => {
     setShowLoginPopup(false);
+    setError('');
   };
 
   const handleChange = (e) => {
@@ -99,6 +172,16 @@ const CourseSearch = ({ getSearchResults }) => {
         <button className='search-button' type='submit'>
           Search
         </button>
+        
+        {loggedIn && (
+          <button 
+            type="button" 
+            className="logout-button" 
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        )}
       </form>
 
       {/* Login/Signup Popup */}
@@ -111,6 +194,9 @@ const CourseSearch = ({ getSearchResults }) => {
                 <button className="close-button" onClick={handleClosePopup}>&times;</button>
               </div>
               
+              {/* Error message display */}
+              {error && <div className="error-message">{error}</div>}
+              
               {/* Conditional form rendering based on isSignup state */}
               <form onSubmit={isSignup ? handleSignup : handleLogin} className="login-form">
                 <div className="form-group">
@@ -122,6 +208,7 @@ const CourseSearch = ({ getSearchResults }) => {
                     onChange={handleChange}
                     required
                     className="login-input"
+                    disabled={loading}
                   />
                 </div>
                 <div className="form-group">
@@ -133,18 +220,30 @@ const CourseSearch = ({ getSearchResults }) => {
                     onChange={handleChange}
                     required
                     className="login-input"
+                    disabled={loading}
                   />
                 </div>
                 <div className="form-group">
-                  <button type="submit" className="login-button">
-                    {isSignup ? 'Sign Up' : 'Log In'}
+                  <button 
+                    type="submit" 
+                    className="login-button"
+                    disabled={loading}
+                  >
+                    {loading ? 'Processing...' : (isSignup ? 'Sign Up' : 'Log In')}
                   </button>
                 </div>
               </form>
 
               <div className="switch-form">
                 {/* Toggle between Login and Signup */}
-                <button onClick={() => setIsSignup(!isSignup)} className="switch-button">
+                <button 
+                  onClick={() => {
+                    setIsSignup(!isSignup);
+                    setError('');
+                  }} 
+                  className="switch-button"
+                  disabled={loading}
+                >
                   {isSignup ? 'Already have an account? Log In' : 'New user? Sign Up'}
                 </button>
               </div>

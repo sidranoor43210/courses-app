@@ -625,3 +625,29 @@ body {
     padding: 1.5rem;
   }
 }
+/* Logout Button */
+.logout-button {
+  padding: 0.85rem 2rem;
+  margin-left: 0.8rem;
+  background: linear-gradient(135deg, #ff5757, #ff7e29);
+  color: var(--bg-white);
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: var(--box-shadow);
+}
+
+.logout-button:hover {
+  background: linear-gradient(135deg, #ff4747, #ff6e19);
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(255, 87, 87, 0.25);
+}
+
+.logout-button:active {
+  transform: translateY(-1px);
+}
