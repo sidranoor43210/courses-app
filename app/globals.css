@@ -52,7 +52,7 @@ body {
   background-color: #38a6f0;
   color: var(--bg-white);
   border: none;
-  width: 13rem;
+  width: 8rem;
 }
 
 .btn:hover {
@@ -65,6 +65,7 @@ body {
   background-color: rgb(102, 181, 247);
   color: var(--bg-white);
   margin-bottom: 1.5rem;
+  width: 12.5rem;
 
 }
 
